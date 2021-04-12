@@ -1051,33 +1051,34 @@ contract SnowballNFTEarlyVoter is ERC721URIStorage, Ownable{
     uint public constant MAX_MINTS_PER_ADDRESS = 1;
     mapping (address => uint8) private _mintCounts;
     constructor() ERC721("Snowball NFT Early Voter", "SNOBNFTVOTE") {}
+    string public _metadata = "{'image_url': 'https://raw.githubusercontent.com/Snowball-Finance/nft-assets/main/nft1.png?token=AO6FGW3DW3IX52RGNSXRUITAOTNFA','title': 'Early Voter','description': 'Voted in the first week of Snowball'}";
 
     function addressMintAvailable(address to) public view virtual returns (bool) {
         return _mintCounts[to] < MAX_MINTS_PER_ADDRESS;
     }
-
+  
     function claim(address to) public{
         require(_mintCounts[to] < MAX_MINTS_PER_ADDRESS, "mint limit per address reached!");
-        string memory metadata = "{'image_url': 'https://raw.githubusercontent.com/Snowball-Finance/nft-assets/main/nft1.png?token=AO6FGW3DW3IX52RGNSXRUITAOTNFA','title': 'Early Voter','description': 'Voted in the first week of Snowball'}";
-
         _tokenIds.increment();
-
+        
         uint256 newItemId = _tokenIds.current();
         _mint(to, newItemId);
-
-        _setTokenURI(newItemId, metadata);
+        
+        _setTokenURI(newItemId, _metadata);
         _mintCounts[to] = _mintCounts[to] + 1;
     }
-
+    
     function ownerMint(address to) public onlyOwner {
-        string memory metadata = "{'image_url': 'https://raw.githubusercontent.com/Snowball-Finance/nft-assets/main/nft1.png?token=AO6FGW3DW3IX52RGNSXRUITAOTNFA','title': 'Early Voter','description': 'Voted in the first week of Snowball'}";
-
         _tokenIds.increment();
-
+        
         uint256 newItemId = _tokenIds.current();
         _mint(to, newItemId);
-
-        _setTokenURI(newItemId, metadata);
+        
+        _setTokenURI(newItemId, _metadata);
         _mintCounts[to] = _mintCounts[to] + 1;
+    }
+    
+    function updateMetadata(string memory metadata) public onlyOwner{
+        _metadata = metadata;
     }
 }
