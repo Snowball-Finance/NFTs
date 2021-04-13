@@ -1045,6 +1045,11 @@ abstract contract Ownable is Context {
         _owner = newOwner;
     }
 }
+pragma solidity ^0.8.0;
+
+interface IGovernance {
+    function getVote(uint256 _proposalId, address _voter) external view returns (bool);
+}
 contract SnowballNFTEarlyVoter is ERC721URIStorage, Ownable{
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -1052,32 +1057,40 @@ contract SnowballNFTEarlyVoter is ERC721URIStorage, Ownable{
     mapping (address => uint8) private _mintCounts;
     constructor() ERC721("Snowball NFT Early Voter", "SNOBNFTVOTE") {}
     string public _metadata = "{'image_url': 'https://raw.githubusercontent.com/Snowball-Finance/nft-assets/main/nft1.png?token=AO6FGW3DW3IX52RGNSXRUITAOTNFA','title': 'Early Voter','description': 'Voted in the first week of Snowball'}";
+    IGovernance public governance;
+
+    function setGovernance(address _governance) public onlyOwner {
+        governance = IGovernance(_governance);
+    }
 
     function addressMintAvailable(address to) public view virtual returns (bool) {
         return _mintCounts[to] < MAX_MINTS_PER_ADDRESS;
     }
-  
+
     function claim(address to) public{
+        bool proposal1Vote = governance.getVote(1, msg.sender);
+        bool proposal2Vote = governance.getVote(2, msg.sender);
+        require(proposal1Vote == true ||  proposal2Vote == true, "did not vote!");
         require(_mintCounts[to] < MAX_MINTS_PER_ADDRESS, "mint limit per address reached!");
         _tokenIds.increment();
-        
+
         uint256 newItemId = _tokenIds.current();
         _mint(to, newItemId);
-        
+
         _setTokenURI(newItemId, _metadata);
         _mintCounts[to] = _mintCounts[to] + 1;
     }
-    
+
     function ownerMint(address to) public onlyOwner {
         _tokenIds.increment();
-        
+
         uint256 newItemId = _tokenIds.current();
         _mint(to, newItemId);
-        
+
         _setTokenURI(newItemId, _metadata);
         _mintCounts[to] = _mintCounts[to] + 1;
     }
-    
+
     function updateMetadata(string memory metadata) public onlyOwner{
         _metadata = metadata;
     }
