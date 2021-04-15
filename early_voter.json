@@ -2,5 +2,7 @@
   "ipfs": "https://gateway.pinata.cloud/ipfs/QmQj8ViwtFdozSVbx1STeVzn7z76Q4FY4LV33wTsfiV6dj",
   "image": "https://gateway.pinata.cloud/ipfs/QmQj8ViwtFdozSVbx1STeVzn7z76Q4FY4LV33wTsfiV6dj",
   "file": "/ipfs/QmQj8ViwtFdozSVbx1STeVzn7z76Q4FY4LV33wTsfiV6dj",
-  "external_url": "https://gateway.pinata.cloud/ipfs/QmQj8ViwtFdozSVbx1STeVzn7z76Q4FY4LV33wTsfiV6dj"
+  "external_url": "https://gateway.pinata.cloud/ipfs/QmQj8ViwtFdozSVbx1STeVzn7z76Q4FY4LV33wTsfiV6dj",
+  "name": "Snowball Early Voter",
+  "description": "Voted on Proposal 1 or Proposal 2 during"
 }
