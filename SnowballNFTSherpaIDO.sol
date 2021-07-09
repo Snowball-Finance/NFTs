@@ -1955,7 +1955,7 @@ contract SnowballNFTSherpaIDO is ERC721, Ownable{
     address public _xSNOB = 0x83952E7ab4aca74ca96217D6F8f7591BEaD6D64E;
     uint256 public _xSNOBRequired = 500000000000000000000; // 500 xSNOB
     address payable _feeReceiver;
-    mapping (address => uint8) private _mintCounts;
+    mapping (address => uint256) private _mintCounts;
     
     IxSNOB public xSNOB;
 
@@ -1993,9 +1993,7 @@ contract SnowballNFTSherpaIDO is ERC721, Ownable{
         uint256 xSNOBBalance = xSNOB.balanceOf(msg.sender);
         require(xSNOBBalance > _xSNOBRequired.mul(count),"buyNFT:: xSNOB balance below minimum required");
         
-        uint256 price = 0;
-        price = _salePrice.mul(count);
-        require(msg.value >= price().mul(count), "Avax value sent is below the price");
+        require(msg.value >= _salePrice.mul(count), "Avax value sent is below the price");
         
         _feeReceiver.transfer(msg.value);
 
