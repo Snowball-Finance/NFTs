@@ -1949,10 +1949,10 @@ contract SnowballNFTSherpaIDO is ERC721, Ownable{
     Counters.Counter public _tokenIds;
     uint256 public TOKEN_LIMIT = 2120;
     uint256 public MAX_TOKENS_PER_ADDRESS = 10; // increment this daily if necessary
-    uint256 public _salePrice = 1000000000000000000; // 1 AVAX
+    uint256 public _salePrice = 1200000000000000000; // 1 AVAX
     address public _feeAddress = 0x294aB3200ef36200db84C4128b7f1b4eec71E38a; //snowball multisig wallet
     address public constant _xSNOB = 0x9a37dC4f28C38813A6D31391721376066FbB401d;
-    uint256 public _xSNOBRequired = 500000000000000000000; // 500 xSNOB
+    uint256 public _xSNOBRequired = 490e18; // 490 xSNOB, 10 xSNOB buffer for decay
     address payable _feeReceiver;
     mapping (address => uint256) private _mintCounts;
     
@@ -1990,7 +1990,7 @@ contract SnowballNFTSherpaIDO is ERC721, Ownable{
         require(totalSupply().add(count) <= TOKEN_LIMIT, "buyNFT:: Exceeds total max limit");
         
         uint256 xSNOBBalance = xSNOB.balanceOf(msg.sender);
-        require(xSNOBBalance > _xSNOBRequired.mul(count.add(_mintCounts[msg.sender])),"buyNFT:: xSNOB balance below minimum required");
+        require(xSNOBBalance >= _xSNOBRequired.mul(count.add(_mintCounts[msg.sender])),"buyNFT:: xSNOB balance below minimum required");
         
         require(msg.value >= _salePrice.mul(count), "buyNFT:: Avax value sent is below the price");
 
@@ -2022,7 +2022,7 @@ contract SnowballNFTSherpaIDO is ERC721, Ownable{
         TOKEN_LIMIT = tokenLimit;
     }
     
-    function updateMaxTokens(uint256 maxTokens) public onlyOwner{
+    function updateMaxPerAddress(uint256 maxTokens) public onlyOwner{
         MAX_TOKENS_PER_ADDRESS = maxTokens;
     }
     
