@@ -1870,6 +1870,7 @@ library Counters {
 
 contract SnowballNFTClaimedHolidayHat is ERC721, Ownable{
     address public constant unclaimedNFT = 0x9fF1918d212c435AD1F1734E9C4DC2DB835161Af;
+    address public constant burnAddress = 0x000000000000000000000000000000000000dEaD;
     using Counters for Counters.Counter;
     Counters.Counter public _tokenIds;
 
@@ -1905,7 +1906,7 @@ contract SnowballNFTClaimedHolidayHat is ERC721, Ownable{
         uint256 index;
         for (index = 0; index < qty; index++) {
             //we store 1:1 user NFT
-            HolidayNFT(unclaimedNFT).transferFrom(msgSender, address(this), userTokenList[index]);
+            HolidayNFT(unclaimedNFT).transferFrom(msgSender, address(burnAddress), userTokenList[index]);
 
             uint256 newItemId = _tokenIds.current();
             _mint(msgSender, newItemId);
