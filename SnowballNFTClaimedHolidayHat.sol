@@ -1875,7 +1875,7 @@ contract SnowballNFTClaimedHolidayHat is ERC721, Ownable{
     Counters.Counter public _tokenIds;
 
     constructor() ERC721("Snowball Claimed Holiday Hat", "SNOBCLAIMHOLIDAY") {
-        setBaseURI("ipfs://bafybeiefj2cidzutpsewi65oyufxcnblc4ah36syeav4jhv3hg5zvwu5sq");
+        setBaseURI("ipfs://bafybeibm7e7fpkuqkyxuns7t35ahswetiktvyehn3sd75oxvv6i6ai26gq?id=");
     }
     
     function tokensOfOwner(address _owner) external view returns(uint256[] memory ) {
